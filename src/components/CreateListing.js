@@ -115,16 +115,16 @@ function CreateListing() {
       toast.error('Location is required')
       return false
     }
-    if (!level) {
-      toast.error('Level is required')
-      return false
-    }
-    if (!modeOfClasses) {
-      toast.error('Mode of Classes is required')
-      return false
-    }
+    // if (!level) {
+    //   toast.error('Level is required')
+    //   return false
+    // }
+    // if (!modeOfClasses) {
+    //   toast.error('Mode of Classes is required')
+    //   return false
+    // }
     if (!address.trim()) {
-      toast.error('Address is required')
+      toast.error('Meeting link or Address is required')
       return false
     }
     if (!image) {
@@ -280,7 +280,7 @@ function CreateListing() {
               id="level"
               value={level}
               onChange={onMutate}
-              required
+              // required
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             >
               <option value="Beginner">Beginner</option>
@@ -296,7 +296,7 @@ function CreateListing() {
               id="modeOfClasses"
               value={modeOfClasses}
               onChange={onMutate}
-              required
+              // required
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             >
               <option value="online">Online</option>
@@ -321,7 +321,7 @@ function CreateListing() {
 
         <div className="mb-6">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="address">
-            Address
+          Meeting link or Address
           </label>
           <input
             type="text"

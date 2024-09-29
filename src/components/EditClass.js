@@ -10,17 +10,16 @@ import Spinner from './spinner'
 
 function EditClass() {
   const [loading, setLoading] = useState(false)
-  const [isEditing, setIsEditing] = useState(false)
   const [formData, setFormData] = useState({
     capacity: null,
     city: '',
     createdAt: serverTimestamp(),
     date: '',
     description: '',
-    geoLocation: {
-      lat: null,
-      lng: null
-    },
+    // geoLocation: {
+    //   lat: null,
+    //   lng: null
+    // },
     image: "https://firebasestorage.googleapis.com/v0/b/yogify-256a2.appspot.com/o/images%2FgbWiF8Q8FkNpF0dqhxzsd2AUss42-pexels-prasanthinturi-1051838.jpg-6b23aa0f-0dca-4b5d-994b-7c93daf7355e?alt=media&token=32340546-9d39-4799-99a3-f12a0f3e2ae6",
     level: '',
     location: '',
@@ -28,6 +27,57 @@ function EditClass() {
     title: '',
     address: '',  // Add this new field
   })
+
+  const validateForm = () => {
+    if (!title.trim()) {
+      toast.error('Title is required')
+      return false
+    }
+    if (!description.trim()) {
+      toast.error('Description is required')
+      return false
+    }
+    if (!capacity || capacity <= 0) {
+      toast.error('Capacity must be a positive number')
+      return false
+    }
+    if (!city.trim()) {
+      toast.error('City is required')
+      return false
+    }
+    if (!date) {
+      toast.error('Date is required')
+      return false
+    }
+    if (!location.trim()) {
+      toast.error('Location is required')
+      return false
+    }
+    if (title.length > 100) {
+      setLoading(false)
+      toast.error('Title should be less than 100 characters')
+      return
+    }
+
+    if (description.length > 1000) {
+      setLoading(false)
+      toast.error('Description should be less than 1000 characters')
+      return
+    }
+
+    const classDate = new Date(date)
+    if (classDate <= new Date()) {
+      setLoading(false)
+      toast.error('Class date should be in the future')
+      return
+    }
+    if (!address.trim()) {
+      toast.error('Meeting link or Address is required')
+      return false
+    }
+    return true
+  }
+
 
   const {
     capacity,
@@ -53,7 +103,7 @@ function EditClass() {
     if (!auth.currentUser) {
       navigate('/sign-in')
     } else {
-      fetchClassData()
+      fetchClassData();
     }
   }, [auth.currentUser, navigate])
 
@@ -66,7 +116,6 @@ function EditClass() {
         const data = docSnap.data()
         setFormData({
           ...data,
-          geoLocation: data.geoLocation || { lat: null, lng: null } // Ensure geoLocation is always an object
         })
       } else {
         toast.error('Class not found')
@@ -81,23 +130,8 @@ function EditClass() {
   const onSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
-
-    if (title.length > 100) {
+    if (!validateForm()) {
       setLoading(false)
-      toast.error('Title should be less than 100 characters')
-      return
-    }
-
-    if (description.length > 1000) {
-      setLoading(false)
-      toast.error('Description should be less than 1000 characters')
-      return
-    }
-
-    const classDate = new Date(date)
-    if (classDate <= new Date()) {
-      setLoading(false)
-      toast.error('Class date should be in the future')
       return
     }
 
@@ -123,7 +157,6 @@ function EditClass() {
       toast.success('Class updated successfully')
       navigate('/profile')
     } catch (error) {
-      console.error(error)
       setLoading(false)
       toast.error('Could not update class')
     }
@@ -198,7 +231,6 @@ function EditClass() {
             id="title"
             value={title}
             onChange={onMutate}
-            disabled={!isEditing}
             required
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
@@ -212,7 +244,6 @@ function EditClass() {
             id="description"
             value={description}
             onChange={onMutate}
-            disabled={!isEditing}
             required
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-32"
           ></textarea>
@@ -228,7 +259,6 @@ function EditClass() {
               id="capacity"
               value={capacity}
               onChange={onMutate}
-            disabled={!isEditing}
               required
               min="1"
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -243,7 +273,6 @@ function EditClass() {
               id="city"
               value={city}
               onChange={onMutate}
-            disabled={!isEditing}
               required
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
@@ -260,7 +289,6 @@ function EditClass() {
               id="date"
               value={date}
               onChange={onMutate}
-            disabled={!isEditing}
               required
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
@@ -274,7 +302,6 @@ function EditClass() {
               id="location"
               value={location}
               onChange={onMutate}
-            disabled={!isEditing}
               required
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
@@ -290,7 +317,6 @@ function EditClass() {
               id="level"
               value={level}
               onChange={onMutate}
-            disabled={!isEditing}
               required
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             >
@@ -307,7 +333,6 @@ function EditClass() {
               id="modeOfClasses"
               value={modeOfClasses}
               onChange={onMutate}
-            disabled={!isEditing}
               required
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             >
@@ -325,7 +350,6 @@ function EditClass() {
             type="file"
             id="image"
             onChange={onMutate}
-            disabled={!isEditing}
             accept=".jpg,.png,.jpeg"
             // required
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -334,14 +358,13 @@ function EditClass() {
 
         <div className="mb-6">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="address">
-            Address
+            Meeting link or adress
           </label>
           <input
             type="text"
             id="address"
             value={address}
             onChange={onMutate}
-            disabled={!isEditing}
             required
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
@@ -349,13 +372,10 @@ function EditClass() {
 
         <div className="flex items-center justify-center mt-6">
           <button
-            type={isEditing ? "submit" : "button"}
-            onClick={isEditing ? undefined : () => setIsEditing(true)}
-            className={`${
-              isEditing ? "bg-green-500 hover:bg-green-700" : "bg-blue-500 hover:bg-blue-700"
-            } text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full md:w-auto`}
+            type="submit"
+            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full md:w-auto"
           >
-            {isEditing ? "Update Class" : "Edit"}
+            Update Class
           </button>
         </div>
       </form>

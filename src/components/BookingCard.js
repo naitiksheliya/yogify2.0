@@ -1,5 +1,5 @@
 import React from 'react';
-import { format, parseISO } from 'date-fns';
+// import { format, parseISO } from 'date-fns';
 
 const BookingCard = ({ booking }) => {
   return (
@@ -8,7 +8,7 @@ const BookingCard = ({ booking }) => {
         {/* <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{booking.className}</h5> */}
         <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Instructor: {booking.instructorName}</p>
         <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-          Date and Time: {format(parseISO(booking.timestamp), "d MMMM yyyy 'at' HH:mm:ss 'UTC'xxx")}
+          {/* Date and Time: {format(parseISO(booking.timestamp), "d MMMM yyyy 'at' HH:mm:ss 'UTC'xxx")} */}
         </p>
         {/* <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Time: {booking.time}</p> */}
         {/* <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Location: {booking.location}</p> */}
