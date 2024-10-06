@@ -66,7 +66,10 @@ function SignUp() {
       if (error.code === 'auth/email-already-in-use') {
         navigate('/sign-in')
         toast.error('Email is already in use. Please use a different email or try logging in.')
-      } else {
+      } else if(error.code === "auth/popup-closed-by-user"){
+        navigate('/sign-up')
+        toast.error('auth/popup-closed-by-user')
+      }else {
         toast.error('Something went wrong with registration')
       }
     }
@@ -113,7 +116,7 @@ function SignUp() {
           </form>
           
           <div className="flex justify-center mt-6">
-            <OAuth />
+            {/* <OAuth /> */}
           </div>
         </div>
       </div>

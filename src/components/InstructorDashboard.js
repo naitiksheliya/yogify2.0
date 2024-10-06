@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
-import { collection, query, where, getDocs } from 'firebase/firestore'
+import { collection, query, where, getDocs, doc, getDoc } from 'firebase/firestore'
 import { db } from '../firebase'
 import ClassItem from './classItem'
 import { toast } from 'react-toastify'
@@ -12,7 +12,6 @@ function InstructorDashboard() {
   const [loading, setLoading] = useState(true)
   const auth = getAuth()
   const navigate = useNavigate()
-
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {

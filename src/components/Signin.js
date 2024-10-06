@@ -40,6 +40,10 @@ function SignIn() {
         navigate('/')
       }
     } catch (error) {
+      if(error.code === "auth/popup-closed-by-user"){
+        navigate('/sign-up')
+        toast.error('auth/popup-closed-by-user')
+      }
       toast.error('Bad User Credentials')
     }
   }
