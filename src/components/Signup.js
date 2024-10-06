@@ -116,7 +116,7 @@ function SignUp() {
           </form>
           
           <div className="flex justify-center mt-6">
-            {/* <OAuth /> */}
+            <OAuth />
           </div>
         </div>
       </div>
