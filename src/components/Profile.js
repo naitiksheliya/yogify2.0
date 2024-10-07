@@ -37,7 +37,6 @@ function Profile() {
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
         setFormData(doc.data())
-        console.log(auth.currentUser.uid);
         if (doc.data().role === "instructor") {
           setInstructor(true)
         }
@@ -61,12 +60,12 @@ function Profile() {
     try {
       let profileImageUrl = formData.profileImageUrl;
       if (images&&imageFile!=null) {
-        console.log(imageFile);
         profileImageUrl = await storeImage(imageFile);
       }
 
       // Update the user document in Firestore
       const userRef = doc(db, 'users', auth.currentUser.uid)
+      console.log(auth.currentUser.uid);
       const formDataCopy = {
         ...formData,
         profileImageUrl,
