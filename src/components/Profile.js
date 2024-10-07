@@ -37,7 +37,7 @@ function Profile() {
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
         setFormData(doc.data())
-        if (doc.data().role === "instructor") {
+        if (doc.data().role === "Instructor") {
           setInstructor(true)
         }
       });
@@ -81,7 +81,11 @@ function Profile() {
         displayName: name,
         photoURL: profileImageUrl
       })
-
+      if(formDataCopy.role==="Instructor"){
+        setInstructor(true);
+      }else{
+        setInstructor(false);
+      }
       toast.success('Profile updated successfully')
       setChangeDetails(false)
     } catch (error) {
