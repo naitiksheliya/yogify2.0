@@ -28,7 +28,7 @@ function Classes() {
   return (
     <>
       <h2 className="text-3xl font-extrabold text-white mb-6">Upcoming Classes</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-center">
         {classes.map((classItem) => (
           <ClassItem key={classItem.id} classData={classItem} />
         ))}

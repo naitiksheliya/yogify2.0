@@ -11,6 +11,8 @@ import Spinner from './spinner'
 function CreateListing() {
   const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
+    instructorName:'',
+    instructorprofileImage:'',
     capacity: '',
     city: '',
     date: '',
@@ -60,6 +62,8 @@ function CreateListing() {
       const formDataCopy = {
         ...formData,
         imageUrl,
+        instructorName:auth.currentUser.name,
+        instructorprofileImage:auth.currentUser.photoURL,
         capacity: parseInt(capacity),
         createdAt: serverTimestamp(),
         instructorId: auth.currentUser.uid,

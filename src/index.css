@@ -144,6 +144,9 @@ h2 {
     padding-left: 1rem;
     padding-right: 1rem;
   }
+  .class-tile {
+    height: 100%; /* Make the card full height on mobile */
+  }
 }
 
 .custom-scrollbar {

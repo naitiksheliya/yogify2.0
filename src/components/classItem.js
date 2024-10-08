@@ -53,6 +53,8 @@ function ClassItem({ classData }) {
         const instructorName = instructorSnap.data().name;
         
         const bookingDetails = {
+          instructorName:classData.instructorName,
+          instructorprofileImage:classData.instructorprofileImage,
           userId: user.uid,
           username: user.displayName,
           email: user.email,
@@ -92,9 +94,26 @@ function ClassItem({ classData }) {
   };
 
   return (
-    <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col h-full">
+    <div className="max-w-sm w-full mx-auto bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col h-full">
       <img className="rounded-t-lg w-full h-48 object-cover" src={classData.imageUrl} alt={classData.title} />
       <div className="p-5 flex flex-col flex-grow">
+        <div className="flex items-center mb-4">
+          {classData.instructorprofileImage && (
+            <img 
+              src={classData.instructorprofileImage} 
+              alt={classData.instructorName}
+              className="w-10 h-10 rounded-full mr-2"
+            />
+          )}
+          {classData.instructorName && (
+            <>
+              <label className="font-medium text-gray-900 dark:text-white">Instructor Name  : </label>
+              <span className="font-medium text-gray-900 dark:text-white">
+                {classData.instructorName}
+              </span>
+            </>
+          )}
+        </div>
         <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{classData.title}</h5>
         <div className="mb-3 overflow-y-auto h-24 custom-scrollbar">
           <p className="font-normal text-gray-700 dark:text-gray-400">{classData.description}</p>

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation,Link } from 'react-router-dom';
 import { getAuth } from 'firebase/auth';
 import { doc, updateDoc, arrayUnion } from 'firebase/firestore';
 import { db } from '../firebase';
@@ -54,7 +54,7 @@ function Congratulations() {
         </p>
         <p className="text-xl font-bold text-yellow-300 bg-gray-900 p-4 rounded-lg mb-4">
           {console.log("date",location)}
-          {formatDate(location.date)}
+          {formatDate(date)}
         </p>
         <p className="text-xl font-bold text-yellow-300 bg-gray-900 p-4 rounded-lg mb-4">
           {formatTime(date)}
@@ -62,9 +62,14 @@ function Congratulations() {
         <p className="text-lg text-white">
           We look forward to seeing you in the class!
         </p>
-        <button className="mt-6 bg-yellow-400 text-gray-900 font-semibold py-2 px-4 rounded-lg hover:bg-yellow-500 transition duration-300 ease-in-out">
-          Go to Dashboard
-        </button>
+        <div className="mt-6 flex justify-center">
+          <Link
+            to="/profile"
+            className="block center-align w-60 bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-semibold py-2 px-4 rounded-lg text-center transition duration-300 ease-in-out"
+          >
+            Go to Dashboard
+          </Link>
+        </div>
       </div>
     </div>
   );
