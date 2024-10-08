@@ -11,6 +11,7 @@ import { v4 as uuidv4 } from 'uuid'
 function Profile() {
   const [instructor, setInstructor] = useState(false);
   const [formData, setFormData] = useState({
+    uid:'',
     name: '',
     bio: '',
     images: null,
@@ -24,7 +25,7 @@ function Profile() {
   const [roleExpanded, setRoleExpanded] = useState(false);
 
   const {
-    name, bio, role, profileImageUrl, email, images,  
+    name, bio, role, profileImageUrl, email, images,uid  
   } = formData
 
   const auth = getAuth()
@@ -49,12 +50,8 @@ function Profile() {
     auth.signOut()
     navigate('/')
   }
-  const handleViewBookings = () => {
-    console.log(formData.bookingIds)
-    console.log("Navigating with bookingIds:", formData.bookingIds);
-    navigate('/user-dashboard', {
-      state: { bookingIds: formData.bookingIds }
-    });
+  const handleViewBookings = (userId) => {
+    navigate(`/user-dashboard/:${userId}`);
   };
   const onSubmit = async () => {
     try {
@@ -304,11 +301,15 @@ function Profile() {
           </div>
         </div>
       </div>
-      {/* <div className='block center-align w-60 bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg text-center transition duration-200'>
-      <button onClick={handleViewBookings}>View Bookings
-        {console.log(formData.bookingIds)}
-      </button>
-    </div> */}
+      <div className='block center-align w-60 bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg text-center transition duration-200'>
+          <Link
+            to={`/user-dashboard/${auth.currentUser.uid}`}
+            className='primaryButton'
+          >
+            {console.log(auth.currentUser.uid)}
+            Contact Landlord
+          </Link>
+    </div>
       {instructor && (
         <div className="mt-6 flex justify-center">
           <Link
