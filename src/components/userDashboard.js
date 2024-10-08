@@ -14,56 +14,64 @@ function UserDashboard() {
   const params = useParams()
 
 
-  useEffect(() => {
-    const fetchBookings = async () => {
+  const fetchBookings = async () => {
+    setLoading(true);
+    
+    try {
+      // Fetch user document
       const docRef = doc(db, "users", params.userId);
-      console.log("userid",params.userId);
+      console.log("userid", params.userId);
       const docSnap = await getDoc(docRef);
-      setBookingIds(docSnap.data().bookingIds)
-      console.log(bookingIds);
-      if (bookingIds.length > 0) {
-        const bookingsRef = collection(db, "bookings");
-        const fetchedBookings = [];
-
-        try {
-          // for (let i = 0; i < bookingIds.length; i++) {
-            // const bookingId = bookingIds[i];
-            // console.log("Fetching booking with ID:", bookingIds);
-            const q = query(bookingsRef, where('__name__', 'in', bookingIds));
-            const querySnapshot = await getDocs(q);
-              querySnapshot.forEach((doc) => {
-                const bookingData = doc.data();
-                console.log(bookingData);
-                  fetchedBookings.push({
-                    id: doc.id,
-                    ...bookingData
-                  })
-              });
-
-          console.log("Fetched bookings:", fetchedBookings);
-          setBookings(fetchedBookings);
-        } catch (error) {
-          console.error("Error fetching bookings:", error);
-          toast.error("Error fetching bookings");
-        } finally {
-          setLoading(false);
-        }
-      } else {
-        toast.error("No bookings found");
-        setLoading(false);
+      
+      if (!docSnap.exists()) {
+        console.error("No user found");
+        toast.error("User not found");
+        return;
       }
-    };
-
+      
+      const userData = docSnap.data();
+      const bookingIds = userData?.bookingIds || [];
+  
+      // Check if bookingIds is empty or undefined
+      if (!bookingIds.length) {
+        console.log("No bookings found for user.");
+        toast.info("No bookings found.");
+        return;
+      }
+  
+      setBookingIds(bookingIds);
+      console.log("Booking IDs:", bookingIds);
+  
+      // Fetch bookings data
+      const bookingsRef = collection(db, "bookings");
+      const fetchedBookings = [];
+  
+      const q = query(bookingsRef, where('__name__', 'in', bookingIds));
+      const querySnapshot = await getDocs(q);
+  
+      querySnapshot.forEach((doc) => {
+        const bookingData = doc.data();
+        fetchedBookings.push({
+          id: doc.id,
+          ...bookingData,
+        });
+      });
+  
+      console.log("Fetched bookings:", fetchedBookings);
+      setBookings(fetchedBookings);
+  
+    } catch (error) {
+      console.error("Error fetching bookings:", error);
+      toast.error("Error fetching bookings");
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  useEffect(() => {
     fetchBookings();
-  }, [ auth.currentUser]);
-
-  if (loading) {
-    return <div>Loading bookings...</div>;
-  }
-
-  if (bookings.length === 0) {
-    return <div>No bookings found.</div>;
-  }
+  }, [params.userId]);
+  
 
   return (
 
